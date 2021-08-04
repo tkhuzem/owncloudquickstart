@@ -16,7 +16,8 @@ This quickstart guide provides instructions on how to:
 
 This section explains how to install ownCloud manually. For alternative methods of installing ownCloud, see the following links:
 * [Installing ownCloud using `docker`](https://doc.owncloud.com/server/10.8/admin_manual/installation/docker/)
-* 
+* [Ready-to-deploy packages for popular Linux distributions such as Debian, Ubuntu, Fedora, RedHat Enterprise Linux, CentOS and openSUSE.](https://software.opensuse.org/download/package?package=owncloud-complete-files&project=isv%3AownCloud%3Aserver%3A10)
+* [Ready-to-use preinstalled appliances for VirtualBox.](https://owncloud.com/download-server/)
 
 ### System requirements
 Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your computer. Click [here](https://doc.owncloud.org/server/10.8/admin_manual/installation/system_requirements.html) for a complete list of supported operating systems and softwares.
