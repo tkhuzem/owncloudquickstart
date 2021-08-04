@@ -34,8 +34,8 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
         #! /bin/bash
         cd /var/www/owncloud
         sudo -E -u www-data /usr/bin/php /var/www/owncloud/occ "\$@"
-        EOM
-
+        EOM 
+	<br>
 3. Make the `occ` script executable:
 
 	`chmod +x /usr/local/bin/occ`.
@@ -54,7 +54,7 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
   	`php-json php-mbstring php-mysql \ ` <br>
   	`php-ssh2 php-xml php-zip \ ` <br>
   	`php-apcu php-redis redis-server \ ` <br>
-  	`wget `
+  	`wget ` <br>
 
 2. Install all the recommended packages such as `bzip2` file decompression tool, `ssh`, `curl` and other core internet utilities:
 
@@ -65,7 +65,7 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
 3. Change the document root and restart the Apache service:
 
 	`sed -i "s#html#owncloud#" /etc/apache2/sites-available/000-default.conf` <br>
-	`service apache2 restart`
+	`systemctl restart apache2.service`
 	
 4. Create a virtual host configuration file:
 
@@ -85,11 +85,12 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
         SetEnv HTTP_HOME /var/www/owncloud
         </Directory>
         EOM
+	<br>
 	
 5. Enable the host configuration file and restart the Apache service:
 
 	`a2ensite owncloud.conf` <br>
-	`service apache2 reload`
+	`systemctl restart apache2.service`
 
 6. Configure the database:
 
@@ -117,15 +118,15 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
 
 9. Configure ownCloud's trusted domains:
 
-	`myip=$(hostname -I|cut -f1 -d ' ')' ` <br>
-	`occ config:system:set trusted_domains 1 --value="$myip"'`
+	`myip=$(hostname -I|cut -f1 -d ' ') ` <br>
+	`occ config:system:set trusted_domains 1 --value="$myip"`
 
 > Note the IP address of the server displayed in the output of this command. This IP address is used to open the log in page of ownCloud server.
 
 10. Finalize the ownCloud installation:
 
 	`cd /var/www/ ` <br>
-	`chown -R www-data. owncloud`
+	`chown -R www-data. owncloud` <br>
 
 ownCloud is now installed on your computer. 
 
@@ -136,11 +137,53 @@ In a supported browser, open the ownCloud log in page by entering the IP address
 
 ## Configure the ownCloud server to allow incoming connections
 
-This section provides instructions to set up the ownCloud server to allow incoming connections from users using the server's IP address.
+This section provides instructions to set up the ownCloud server to allow incoming connections from users using the server's IP address. The first step is to enable SSL and then port fowarding to port 8080.
 
-### To configure the ownCloud server
+### To enable SSL on the ownCloud server
+To allow external connections to the ownCloud server, you must enable SSL for secure access. 
+Execute the following steps in a terminal window:
 
+1. Execute the following command to enable SSL:
 
+	`a2enmod ssl`
 
+2. Create a directory for the self-signed certificate:
 
+	`mkdir /etc/apache2/ssl`
 
+3. Create the self-signed certificate and the key and save both in the newly created directory:
+
+	`openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/owncloud.key -out /etc/apache2/ssl/owncloud.crt`
+
+> This self-signed certificate is valid for 365 days, as mentioned in the command.
+
+4. Execute the following command to modify some values in the certificate:
+
+	`nano /etc/apache2/sites-available/default-ssl­.conf`
+
+5. Modify the following values:
+	
+        ServerName IP :443
+        SSLEngine on
+        SSLCertificateFile /etc/apache2/ssl/owncloud.crt
+        SSLCertificateKeyFile /etc/apache2/ssl/owncloud.key 
+
+6. Execute the following command to activate the new virtual host:
+
+	`a2ensite default-ssl`
+
+7. Restart the Apache service:
+
+	`systemctl restart apache2.service`
+
+### To configure port forwarding to port 8080
+
+1. Log in to your router and note the WAN IP address.
+2. Open the owncloud config file to add the WAN IP address:
+
+	`nano /var/www/html/owncloud/config/config.php`
+
+3. In the owncloud config file, in the trusted domains array, add an entry for the WAN IP address.
+4. Change the value of `overwrite.cli.url` with the WAN IP address.
+5. Log in to your router and navigate to the port forwarding section.
+6. Forward the SSL port 443 to the Ubuntu server running the ownCloud instance internal IP (LAN IP) address and save settings.
