@@ -15,8 +15,8 @@ This quickstart guide provides instructions on how to:
 ## Installing ownCloud
 
 This section explains how to install ownCloud manually. For alternative methods of installing ownCloud, see the following links:
-* LINK1
-* LINK2
+* [Installing ownCloud using `docker`](https://doc.owncloud.com/server/10.8/admin_manual/installation/docker/)
+* 
 
 ### System requirements
 Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your computer. Click [here](https://doc.owncloud.org/server/10.8/admin_manual/installation/system_requirements.html) for a complete list of supported operating systems and softwares.
