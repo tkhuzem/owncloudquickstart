@@ -35,7 +35,7 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
         cd /var/www/owncloud
         sudo -E -u www-data /usr/bin/php /var/www/owncloud/occ "\$@"
         EOM 
-	<br>
+
 3. Make the `occ` script executable:
 
 	`chmod +x /usr/local/bin/occ`.
@@ -85,7 +85,6 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
         SetEnv HTTP_HOME /var/www/owncloud
         </Directory>
         EOM
-	<br>
 	
 5. Enable the host configuration file and restart the Apache service:
 
@@ -114,12 +113,12 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
 	`--database-user "owncloud" \ ` <br>
 	`--database-pass "password" \ ` <br>
 	`--admin-user "admin" \ ` <br>
-	`--admin-pass "admin"`
+	`--admin-pass "admin"` <br>
 
 9. Configure ownCloud's trusted domains:
 
 	`myip=$(hostname -I|cut -f1 -d ' ') ` <br>
-	`occ config:system:set trusted_domains 1 --value="$myip"`
+	`occ config:system:set trusted_domains 1 --value="$myip"` <br>
 
 > Note the IP address of the server displayed in the output of this command. This IP address is used to open the log in page of ownCloud server.
 
@@ -140,6 +139,7 @@ In a supported browser, open the ownCloud log in page by entering the IP address
 This section provides instructions to set up the ownCloud server to allow incoming connections from users using the server's IP address. The first step is to enable SSL and then port fowarding to port 8080.
 
 ### To enable SSL on the ownCloud server
+
 To allow external connections to the ownCloud server, you must enable SSL for secure access. 
 Execute the following steps in a terminal window:
 
@@ -187,3 +187,32 @@ Execute the following steps in a terminal window:
 4. Change the value of `overwrite.cli.url` with the WAN IP address.
 5. Log in to your router and navigate to the port forwarding section.
 6. Forward the SSL port 443 to the Ubuntu server running the ownCloud instance internal IP (LAN IP) address and save settings.
+
+## Adding a user
+
+You can add users to your ownCloud server who can share their files and content with the server adminsitrator and other users who are subscribing to the services in the ownCloud server.
+
+### To add a user
+
+1. In a supported browser, open the admin log in page and enter the credentials.
+2. In the upper left corner of the screen, click **Admin -> Users**. A list of users is displayed.
+3. Enter the **Username** and **E-mail** address of the user you want to add.
+4. From the dropdown list, select the user group to which you want to add the user. To create a new one click **+ add group**.
+5. Click **Create**. 
+   A new user is now added to the ownCloud server.
+   
+## Accessing the ownCloud server from a desktop client
+After you have configured the ownCloud server to be accessed from externally, you can configure your desktop client and also your mobile phones to connect to the ownCloud server.
+
+### Accessing ownCloud server from a desktop client
+
+1. Download the ownCloud desktop client from [here](https://owncloud.com/desktop-app).
+2. In the **Setup ownCloud Server** page, enter the IP address of the ownCloud server and click **Next**.
+3. Enter the credentials and click **Next**.
+4. In the **Setup local folder options** dialog, select what to sync from the server. You can sync all the contents of the server or limited set of files and folders.
+5. Select the local folder on your computer that will be synced with the ownCloud server and click **Connect**.
+
+### Accessing ownCloud server from a mobile phone
+1. Download the ownCloud app from the Google Playstore or Apple store and install the app.
+2. On first launch, the app prompts for the server IP and the credentials. Enter the required information and click **Connect**.
+ 
