@@ -24,39 +24,49 @@ Before installing ownCloud, ensure you have Ubuntu 20.04 LTS installed on your c
 ### Prepare your computer for installation
 
 1. Upgrade and update your operating system and packages. To do this, execute the following command:
-'apt update && apt upgrade -y' or
-'sudo apt update && upgrade -y
+
+	`apt update && apt upgrade -y`
+
 2. Create the 'occ' command helper script that would help in executing 'occ' commands.
+
         FILE="/usr/local/bin/occ"
         /bin/cat <<EOM >$FILE
         #! /bin/bash
         cd /var/www/owncloud
         sudo -E -u www-data /usr/bin/php /var/www/owncloud/occ "\$@"
         EOM
+
 3. Make the 'occ' script executable:
-'chmod +x /usr/local/bin/occ'.
+
+	`chmod +x /usr/local/bin/occ`.
 
 ### To install ownCloud
 
 1. Install all required packages such as Apache server, the MariaDB database, openSSL, and PHP.
-'apt install -y \
-  apache2 \
-  libapache2-mod-php \
-  mariadb-server \
-  openssl \
-  php-imagick php-common php-curl \
-  php-gd php-imap php-intl \
-  php-json php-mbstring php-mysql \
-  php-ssh2 php-xml php-zip \
-  php-apcu php-redis redis-server \
-  wget'
+
+	`apt install -y \ ` <br>
+	`apache2 \` <br>
+	`libapache2-mod-php \ ` <br>
+	`mariadb-server \` <br>
+	`openssl \ ` <br>
+	`php-imagick php-common php-curl \` <br>
+  	`php-gd php-imap php-intl \` <br>
+  	`php-json php-mbstring php-mysql \ ` <br>
+  	`php-ssh2 php-xml php-zip \ ` <br>
+  	`php-apcu php-redis redis-server \ ` <br>
+  	`wget `
+
 2. Install the 'bzip2' file decompression tool as well as other core internet utilities.
-'apt install -y \
-  ssh bzip2 rsync curl jq \
-  inetutils-ping coreutils'
+
+	`apt install -y \ ` <br> 
+	`ssh bzip2 rsync curl jq \ ` <br>
+  	`inetutils-ping coreutils`  <br>
+	
 3. Change the document root and restart the Apache service.
-'sed -i "s#html#owncloud#" /etc/apache2/sites-available/000-default.conf
-service apache2 restart'
+
+	`sed -i "s#html#owncloud#" /etc/apache2/sites-available/000-default.conf`
+	`service apache2 restart`
+	
 4. Create a virtual host configuration file.
         FILE="/etc/apache2/sites-available/owncloud.conf"
 	/bin/cat <<EOM >$FILE
